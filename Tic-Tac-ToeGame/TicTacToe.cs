@@ -12,76 +12,128 @@ namespace Tic_Tac_ToeGame
                                                  {"*", "*", "*"} };
             string playerOneInput = "X";
             string playerTwoInput = "O";
+            string userInput;
 
             int x_coord = 0;
             int y_coord = 0;
             int winState;
             int tieState;
 
-            //outputs the blank board to the console
-            drawBoard(board);
+            bool playAgain = false;
+            bool repeat = false;
 
-            //loops turns between players until a winner is declared
+            //repeats while the players want to play again
             do
             {
-                //resets tieState to 1 to continue checking if the game has tied
-                tieState = 1;
-
-                //runs a function to prompt the player on where they want to place their marker on the board
-                placeMarker(board, playerOneInput, x_coord, y_coord);
-                //checks if player one has won the game
-                winState = winCheck(board, playerOneInput);
-
-                //checks if there is a vacant area still on the table
-                foreach (string element in board)
+                //resets variables of script to default values if players want to play again
+                if (playAgain == true)
                 {
-                    if (element == "*")
-                        tieState = 0;
-                }
-                //and exits the code if there are no more spots to play on
-                if (tieState == 1)
-                {
-                    Console.WriteLine("The Game was a Tie!");
-                    System.Environment.Exit(0);
+                    board = new string[3, 3] { {"*", "*", "*"},
+                                               {"*", "*", "*"},
+                                               {"*", "*", "*"} };
+
+                    x_coord = 0;
+                    y_coord = 0;
+                    winState = 0;
+                    tieState = 0;
+                    playAgain = false;
                 }
 
-                //runs player two's turn if player one did not win the game
-                if (winState != 1)
+                //outputs the blank board to the console
+                drawBoard(board);
+
+                //loops turns between players until a winner is declared
+                do
                 {
+                    //resets tieState to 1 to continue checking if the game has tied
+                    tieState = 1;
+
                     //runs a function to prompt the player on where they want to place their marker on the board
-                    placeMarker(board, playerTwoInput, x_coord, y_coord);
-                    //checks if player two has won the game
-                    winState = winCheck(board, playerTwoInput);
-                }
+                    placeMarker(board, playerOneInput, x_coord, y_coord);
+                    //checks if player one has won the game
+                    winState = winCheck(board, playerOneInput);
 
-                //checks if there is a vacant area still on the table
-                foreach (string element in board)
-                {
-                    if (element == "*")
+                    //checks if there is a vacant area still on the table
+                    foreach (string element in board)
+                    {
+                        if (element == "*")
+                            tieState = 0;
+                    }
+                    //and exits the code if there are no more spots to play on
+                    if (tieState == 1)
+                    {
+                        Console.WriteLine("The Game was a Tie!");
+                        winState = 1;
                         tieState = 0;
-                }
-                //and exits the code if there are no more spots to play on
-                if (tieState == 1)
-                {
-                    Console.WriteLine("The Game was a Tie!");
-                    System.Environment.Exit(0);
-                }
+                    }
 
-            } while (winState != 1);
+                    //runs player two's turn if player one did not win the game
+                    if (winState != 1)
+                    {
+                        //runs a function to prompt the player on where they want to place their marker on the board
+                        placeMarker(board, playerTwoInput, x_coord, y_coord);
+                        //checks if player two has won the game
+                        winState = winCheck(board, playerTwoInput);
+                    }
+
+                    //checks if there is a vacant area still on the table
+                    foreach (string element in board)
+                    {
+                        if (element == "*")
+                            tieState = 0;
+                    }
+                    //and exits the code if there are no more spots to play on
+                    if (tieState == 1)
+                    {
+                        Console.WriteLine("The Game was a Tie!");
+                        winState = 1;
+                    }
+
+                } while (winState != 1);
+
+                Console.WriteLine("\nWould you like to play again? y/n");
+                
+                userInput = Console.ReadLine();
+
+                do
+                {
+                    //checks for valid input from the user
+                    switch (userInput)
+                    {
+                        case var expression when (userInput.ToLower() == "yes" || (userInput.ToLower() == "y")):
+                            Console.Write("Please enter the amount you want on cash back: $");
+                            Console.Clear();
+                            repeat = false;
+                            playAgain = true;
+                            break;
+                        case var expression when (userInput.ToLower() == "no" || (userInput.ToLower() == "n")):
+                            repeat = false;
+                            playAgain = false;
+                            break;
+                        default:
+                            Console.WriteLine("Please type a valid response: y/n");
+                            userInput = Console.ReadLine();
+                            Console.Clear();
+                            repeat = true;
+                            break;
+                    }
+                } while (repeat == true);
+
+            } while (playAgain == true);
         }//END MAIN
 
         //outputs the board to the console
         static void drawBoard(string[,] board)
         {
-            for (int i = 0; i < board.GetLength(0); i++)
-            {
-                for (int j = 0; j < board.GetLength(1); j++)
-                {
-                    Console.Write(board[i, j] + " ");
-                }
-
-                Console.WriteLine();
-            }
+            Console.WriteLine("        |     |      ");
+            Console.WriteLine("    " + board[0,0] + "   |  " + board[0,1] + "  |  " + board[0,2] + "   ");
+            Console.WriteLine("  ______|_____|______");
+            Console.WriteLine("        |     |      "); 
+            Console.WriteLine("    " + board[1, 0] + "   |  " + board[1, 1] + "  |  " + board[1, 2] + "   ");
+            Console.WriteLine("  ______|_____|______");
+            Console.WriteLine("        |     |      "); 
+            Console.WriteLine("    " + board[2, 0] + "   |  " + board[2, 1] + "  |  " + board[2, 2] + "   ");
+            Console.WriteLine("        |     |      ");
         }
         //runs the process of allowing the user to place their marker at a certain area of the board
         static void placeMarker(string[,] board, string marker, int x_coord, int y_coord) 
