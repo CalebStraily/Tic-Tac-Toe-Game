@@ -101,19 +101,18 @@ namespace Tic_Tac_ToeGame
                     switch (userInput)
                     {
                         case var expression when (userInput.ToLower() == "yes" || (userInput.ToLower() == "y")):
-                            Console.Write("Please enter the amount you want on cash back: $");
                             Console.Clear();
                             repeat = false;
                             playAgain = true;
                             break;
                         case var expression when (userInput.ToLower() == "no" || (userInput.ToLower() == "n")):
+                            Console.Clear();
                             repeat = false;
                             playAgain = false;
                             break;
                         default:
                             Console.WriteLine("Please type a valid response: y/n");
                             userInput = Console.ReadLine();
-                            Console.Clear();
                             repeat = true;
                             break;
                     }
